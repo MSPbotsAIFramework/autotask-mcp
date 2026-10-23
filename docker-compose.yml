@@ -1,0 +1,6 @@
+services:
+  autotask-mcp:
+    build: .
+    image: autotask-mcp:local
+    ports:
+      - "8080:8080"

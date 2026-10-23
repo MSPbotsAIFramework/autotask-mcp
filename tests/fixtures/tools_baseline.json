@@ -1,0 +1,2139 @@
+{
+ "autotask_assign_least_loaded_resource": {
+  "params": [
+   "createTicket",
+   "queueIDs",
+   "status",
+   "technicians",
+   "ticketID"
+  ],
+  "required": [
+   "status",
+   "technicians"
+  ],
+  "types": {
+   "createTicket": "object",
+   "queueIDs": "array",
+   "status": "number",
+   "technicians": "array",
+   "ticketID": "number"
+  }
+ },
+ "autotask_create_company": {
+  "params": [
+   "address1",
+   "city",
+   "companyName",
+   "companyType",
+   "isActive",
+   "ownerResourceID",
+   "phone",
+   "postalCode",
+   "state"
+  ],
+  "required": [
+   "companyName",
+   "companyType"
+  ],
+  "types": {
+   "address1": "string",
+   "city": "string",
+   "companyName": "string",
+   "companyType": "number",
+   "isActive": "boolean",
+   "ownerResourceID": "number",
+   "phone": "string",
+   "postalCode": "string",
+   "state": "string"
+  }
+ },
+ "autotask_create_company_note": {
+  "params": [
+   "actionType",
+   "companyId",
+   "description",
+   "title"
+  ],
+  "required": [
+   "companyId",
+   "description"
+  ],
+  "types": {
+   "actionType": "number",
+   "companyId": "number",
+   "description": "string",
+   "title": "string"
+  }
+ },
+ "autotask_create_contact": {
+  "params": [
+   "companyID",
+   "emailAddress",
+   "firstName",
+   "isActive",
+   "lastName",
+   "phone",
+   "title"
+  ],
+  "required": [
+   "companyID",
+   "firstName",
+   "lastName"
+  ],
+  "types": {
+   "companyID": "number",
+   "emailAddress": "string",
+   "firstName": "string",
+   "isActive": "number",
+   "lastName": "string",
+   "phone": "string",
+   "title": "string"
+  }
+ },
+ "autotask_create_contract": {
+  "params": [
+   "billToCompanyContactID",
+   "billToCompanyID",
+   "billingPreference",
+   "companyID",
+   "contactID",
+   "contractCategory",
+   "contractExclusionSetID",
+   "contractName",
+   "contractNumber",
+   "contractPeriodType",
+   "contractType",
+   "description",
+   "endDate",
+   "estimatedCost",
+   "estimatedHours",
+   "estimatedRevenue",
+   "exclusionContractID",
+   "internalCurrencyOverageBillingRate",
+   "internalCurrencySetupFee",
+   "isDefaultContract",
+   "opportunityID",
+   "organizationalLevelAssociationID",
+   "overageBillingRate",
+   "purchaseOrderNumber",
+   "renewedContractID",
+   "serviceLevelAgreementID",
+   "setupFee",
+   "setupFeeBillingCodeID",
+   "startDate",
+   "status",
+   "timeReportingRequiresStartAndStopTimes"
+  ],
+  "required": [
+   "companyID",
+   "contractCategory",
+   "contractName",
+   "contractType",
+   "endDate",
+   "startDate"
+  ],
+  "types": {
+   "billToCompanyContactID": "number",
+   "billToCompanyID": "number",
+   "billingPreference": "number",
+   "companyID": "number",
+   "contactID": "number",
+   "contractCategory": "number",
+   "contractExclusionSetID": "number",
+   "contractName": "string",
+   "contractNumber": "string",
+   "contractPeriodType": "number",
+   "contractType": "number",
+   "description": "string",
+   "endDate": "string",
+   "estimatedCost": "number",
+   "estimatedHours": "number",
+   "estimatedRevenue": "number",
+   "exclusionContractID": "number",
+   "internalCurrencyOverageBillingRate": "number",
+   "internalCurrencySetupFee": "number",
+   "isDefaultContract": "boolean",
+   "opportunityID": "number",
+   "organizationalLevelAssociationID": "number",
+   "overageBillingRate": "number",
+   "purchaseOrderNumber": "string",
+   "renewedContractID": "number",
+   "serviceLevelAgreementID": "number",
+   "setupFee": "number",
+   "setupFeeBillingCodeID": "number",
+   "startDate": "string",
+   "status": "number",
+   "timeReportingRequiresStartAndStopTimes": "number"
+  }
+ },
+ "autotask_create_contract_service": {
+  "params": [
+   "adjustedPrice",
+   "contractID",
+   "internalCurrencyUnitPrice",
+   "invoiceDescription",
+   "quoteItemID",
+   "serviceID",
+   "unitCost",
+   "unitPrice"
+  ],
+  "required": [
+   "contractID",
+   "serviceID",
+   "unitPrice"
+  ],
+  "types": {
+   "adjustedPrice": "number",
+   "contractID": "number",
+   "internalCurrencyUnitPrice": "number",
+   "invoiceDescription": "string",
+   "quoteItemID": "number",
+   "serviceID": "number",
+   "unitCost": "number",
+   "unitPrice": "number"
+  }
+ },
+ "autotask_create_contracts_bulk": {
+  "params": [
+   "contracts"
+  ],
+  "required": [
+   "contracts"
+  ],
+  "types": {
+   "contracts": "array"
+  }
+ },
+ "autotask_create_expense_item": {
+  "params": [
+   "amount",
+   "companyId",
+   "description",
+   "expenseCategory",
+   "expenseDate",
+   "expenseReportId",
+   "haveReceipt",
+   "isBillableToCompany",
+   "isReimbursable",
+   "paymentType"
+  ],
+  "required": [
+   "amount",
+   "description",
+   "expenseCategory",
+   "expenseDate",
+   "expenseReportId"
+  ],
+  "types": {
+   "amount": "number",
+   "companyId": "number",
+   "description": "string",
+   "expenseCategory": "number",
+   "expenseDate": "string",
+   "expenseReportId": "number",
+   "haveReceipt": "boolean",
+   "isBillableToCompany": "boolean",
+   "isReimbursable": "boolean",
+   "paymentType": "number"
+  }
+ },
+ "autotask_create_expense_report": {
+  "params": [
+   "description",
+   "name",
+   "submitterId",
+   "weekEndingDate"
+  ],
+  "required": [
+   "name",
+   "submitterId",
+   "weekEndingDate"
+  ],
+  "types": {
+   "description": "string",
+   "name": "string",
+   "submitterId": "number",
+   "weekEndingDate": "string"
+  }
+ },
+ "autotask_create_opportunity": {
+  "params": [
+   "amount",
+   "companyId",
+   "contactId",
+   "cost",
+   "description",
+   "opportunityCategoryID",
+   "ownerResourceId",
+   "probability",
+   "projectedCloseDate",
+   "stage",
+   "startDate",
+   "status",
+   "title",
+   "totalAmountMonths",
+   "useQuoteTotals"
+  ],
+  "required": [
+   "companyId",
+   "ownerResourceId",
+   "projectedCloseDate",
+   "stage",
+   "startDate",
+   "status",
+   "title"
+  ],
+  "types": {
+   "amount": "number",
+   "companyId": "number",
+   "contactId": "number",
+   "cost": "number",
+   "description": "string",
+   "opportunityCategoryID": "number",
+   "ownerResourceId": "number",
+   "probability": "number",
+   "projectedCloseDate": "string",
+   "stage": "number",
+   "startDate": "string",
+   "status": "number",
+   "title": "string",
+   "totalAmountMonths": "number",
+   "useQuoteTotals": "boolean"
+  }
+ },
+ "autotask_create_phase": {
+  "params": [
+   "description",
+   "dueDate",
+   "estimatedHours",
+   "projectID",
+   "startDate",
+   "title"
+  ],
+  "required": [
+   "projectID",
+   "title"
+  ],
+  "types": {
+   "description": "string",
+   "dueDate": "string",
+   "estimatedHours": "number",
+   "projectID": "number",
+   "startDate": "string",
+   "title": "string"
+  }
+ },
+ "autotask_create_project": {
+  "params": [
+   "companyID",
+   "description",
+   "endDate",
+   "estimatedHours",
+   "projectLeadResourceID",
+   "projectName",
+   "projectType",
+   "startDate",
+   "status"
+  ],
+  "required": [
+   "companyID",
+   "projectName",
+   "projectType",
+   "status"
+  ],
+  "types": {
+   "companyID": "number",
+   "description": "string",
+   "endDate": "string",
+   "estimatedHours": "number",
+   "projectLeadResourceID": "number",
+   "projectName": "string",
+   "projectType": "number",
+   "startDate": "string",
+   "status": "number"
+  }
+ },
+ "autotask_create_project_note": {
+  "params": [
+   "description",
+   "isAnnouncement",
+   "noteType",
+   "projectId",
+   "publish",
+   "title"
+  ],
+  "required": [
+   "description",
+   "projectId"
+  ],
+  "types": {
+   "description": "string",
+   "isAnnouncement": "boolean",
+   "noteType": "number",
+   "projectId": "number",
+   "publish": "number",
+   "title": "string"
+  }
+ },
+ "autotask_create_quote": {
+  "params": [
+   "companyId",
+   "contactId",
+   "description",
+   "effectiveDate",
+   "expirationDate",
+   "name",
+   "opportunityId"
+  ],
+  "required": [
+   "companyId"
+  ],
+  "types": {
+   "companyId": "number",
+   "contactId": "number",
+   "description": "string",
+   "effectiveDate": "string",
+   "expirationDate": "string",
+   "name": "string",
+   "opportunityId": "number"
+  }
+ },
+ "autotask_create_quote_item": {
+  "params": [
+   "description",
+   "isOptional",
+   "lineDiscount",
+   "name",
+   "percentageDiscount",
+   "productID",
+   "quantity",
+   "quoteId",
+   "quoteItemType",
+   "serviceBundleID",
+   "serviceID",
+   "sortOrderID",
+   "unitCost",
+   "unitDiscount",
+   "unitPrice"
+  ],
+  "required": [
+   "quantity",
+   "quoteId"
+  ],
+  "types": {
+   "description": "string",
+   "isOptional": "boolean",
+   "lineDiscount": "number",
+   "name": "string",
+   "percentageDiscount": "number",
+   "productID": "number",
+   "quantity": "number",
+   "quoteId": "number",
+   "quoteItemType": "number",
+   "serviceBundleID": "number",
+   "serviceID": "number",
+   "sortOrderID": "number",
+   "unitCost": "number",
+   "unitDiscount": "number",
+   "unitPrice": "number"
+  }
+ },
+ "autotask_create_service_call": {
+  "params": [
+   "companyID",
+   "companyLocationID",
+   "complete",
+   "description",
+   "endDateTime",
+   "startDateTime",
+   "status"
+  ],
+  "required": [
+   "description",
+   "endDateTime",
+   "startDateTime"
+  ],
+  "types": {
+   "companyID": "number",
+   "companyLocationID": "number",
+   "complete": "boolean",
+   "description": "string",
+   "endDateTime": "string",
+   "startDateTime": "string",
+   "status": "number"
+  }
+ },
+ "autotask_create_service_call_ticket": {
+  "params": [
+   "serviceCallID",
+   "ticketID"
+  ],
+  "required": [
+   "serviceCallID",
+   "ticketID"
+  ],
+  "types": {
+   "serviceCallID": "number",
+   "ticketID": "number"
+  }
+ },
+ "autotask_create_service_call_ticket_resource": {
+  "params": [
+   "resourceID",
+   "roleID",
+   "serviceCallTicketID"
+  ],
+  "required": [
+   "resourceID",
+   "serviceCallTicketID"
+  ],
+  "types": {
+   "resourceID": "number",
+   "roleID": "number",
+   "serviceCallTicketID": "number"
+  }
+ },
+ "autotask_create_task": {
+  "params": [
+   "assignedResourceID",
+   "description",
+   "endDateTime",
+   "estimatedHours",
+   "projectID",
+   "startDateTime",
+   "status",
+   "taskType",
+   "title"
+  ],
+  "required": [
+   "projectID",
+   "status",
+   "title"
+  ],
+  "types": {
+   "assignedResourceID": "number",
+   "description": "string",
+   "endDateTime": "string",
+   "estimatedHours": "number",
+   "projectID": "number",
+   "startDateTime": "string",
+   "status": "number",
+   "taskType": "number",
+   "title": "string"
+  }
+ },
+ "autotask_create_ticket": {
+  "params": [
+   "assignedResourceID",
+   "assignedResourceRoleID",
+   "assignedResourceRoleName",
+   "billingCodeID",
+   "companyID",
+   "contactID",
+   "description",
+   "dueDateTime",
+   "estimatedHours",
+   "issueType",
+   "priority",
+   "projectID",
+   "queueID",
+   "resolution",
+   "serviceLevelAgreementID",
+   "source",
+   "status",
+   "subIssueType",
+   "ticketAdditionalContacts",
+   "ticketCategory",
+   "ticketType",
+   "title",
+   "userDefinedFields"
+  ],
+  "required": [
+   "companyID",
+   "description",
+   "title"
+  ],
+  "types": {
+   "assignedResourceID": "number",
+   "assignedResourceRoleID": "number",
+   "assignedResourceRoleName": "string",
+   "billingCodeID": "number",
+   "companyID": "number",
+   "contactID": "number",
+   "description": "string",
+   "dueDateTime": "string",
+   "estimatedHours": "number",
+   "issueType": "number",
+   "priority": "number",
+   "projectID": "number",
+   "queueID": "number",
+   "resolution": "string",
+   "serviceLevelAgreementID": "number",
+   "source": "number",
+   "status": "number",
+   "subIssueType": "number",
+   "ticketAdditionalContacts": "array",
+   "ticketCategory": "number",
+   "ticketType": "number",
+   "title": "string",
+   "userDefinedFields": "array"
+  }
+ },
+ "autotask_create_ticket_attachment": {
+  "params": [
+   "contentType",
+   "data",
+   "fullPath",
+   "publish",
+   "ticketId",
+   "title"
+  ],
+  "required": [
+   "data",
+   "ticketId",
+   "title"
+  ],
+  "types": {
+   "contentType": "string",
+   "data": "string",
+   "fullPath": "string",
+   "publish": "number",
+   "ticketId": "number",
+   "title": "string"
+  }
+ },
+ "autotask_create_ticket_charge": {
+  "params": [
+   "billableToAccount",
+   "billingCodeID",
+   "chargeType",
+   "datePurchased",
+   "description",
+   "name",
+   "productID",
+   "status",
+   "ticketID",
+   "unitCost",
+   "unitPrice",
+   "unitQuantity"
+  ],
+  "required": [
+   "chargeType",
+   "name",
+   "ticketID"
+  ],
+  "types": {
+   "billableToAccount": "boolean",
+   "billingCodeID": "number",
+   "chargeType": "number",
+   "datePurchased": "string",
+   "description": "string",
+   "name": "string",
+   "productID": "number",
+   "status": "number",
+   "ticketID": "number",
+   "unitCost": "number",
+   "unitPrice": "number",
+   "unitQuantity": "number"
+  }
+ },
+ "autotask_create_ticket_checklist_item": {
+  "params": [
+   "isCompleted",
+   "itemName",
+   "position",
+   "ticketId"
+  ],
+  "required": [
+   "itemName",
+   "ticketId"
+  ],
+  "types": {
+   "isCompleted": "boolean",
+   "itemName": "string",
+   "position": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_create_ticket_note": {
+  "params": [
+   "description",
+   "noteType",
+   "publish",
+   "ticketId",
+   "title"
+  ],
+  "required": [
+   "description",
+   "noteType",
+   "publish",
+   "ticketId"
+  ],
+  "types": {
+   "description": "string",
+   "noteType": "number",
+   "publish": "number",
+   "ticketId": "number",
+   "title": "string"
+  }
+ },
+ "autotask_create_time_entry": {
+  "params": [
+   "category",
+   "dateWorked",
+   "endDateTime",
+   "hoursWorked",
+   "internalNotes",
+   "resourceID",
+   "resourceName",
+   "roleID",
+   "roleName",
+   "startDateTime",
+   "summaryNotes",
+   "taskID",
+   "ticketID"
+  ],
+  "required": [
+   "dateWorked",
+   "hoursWorked",
+   "summaryNotes"
+  ],
+  "types": {
+   "category": "string",
+   "dateWorked": "string",
+   "endDateTime": "string",
+   "hoursWorked": "number",
+   "internalNotes": "string",
+   "resourceID": "number",
+   "resourceName": "string",
+   "roleID": "number",
+   "roleName": "string",
+   "startDateTime": "string",
+   "summaryNotes": "string",
+   "taskID": "number",
+   "ticketID": "number"
+  }
+ },
+ "autotask_delete_quote_item": {
+  "params": [
+   "quoteId",
+   "quoteItemId"
+  ],
+  "required": [
+   "quoteId",
+   "quoteItemId"
+  ],
+  "types": {
+   "quoteId": "number",
+   "quoteItemId": "number"
+  }
+ },
+ "autotask_delete_service_call": {
+  "params": [
+   "serviceCallId"
+  ],
+  "required": [
+   "serviceCallId"
+  ],
+  "types": {
+   "serviceCallId": "number"
+  }
+ },
+ "autotask_delete_service_call_ticket": {
+  "params": [
+   "serviceCallTicketId"
+  ],
+  "required": [
+   "serviceCallTicketId"
+  ],
+  "types": {
+   "serviceCallTicketId": "number"
+  }
+ },
+ "autotask_delete_service_call_ticket_resource": {
+  "params": [
+   "serviceCallTicketResourceId"
+  ],
+  "required": [
+   "serviceCallTicketResourceId"
+  ],
+  "types": {
+   "serviceCallTicketResourceId": "number"
+  }
+ },
+ "autotask_delete_ticket_charge": {
+  "params": [
+   "chargeId",
+   "ticketId"
+  ],
+  "required": [
+   "chargeId",
+   "ticketId"
+  ],
+  "types": {
+   "chargeId": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_delete_ticket_checklist_item": {
+  "params": [
+   "itemId",
+   "ticketId"
+  ],
+  "required": [
+   "itemId",
+   "ticketId"
+  ],
+  "types": {
+   "itemId": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_execute_tool": {
+  "params": [
+   "arguments",
+   "toolName"
+  ],
+  "required": [
+   "toolName"
+  ],
+  "types": {
+   "arguments": "object",
+   "toolName": "string"
+  }
+ },
+ "autotask_get_billing_item": {
+  "params": [
+   "billingItemId"
+  ],
+  "required": [
+   "billingItemId"
+  ],
+  "types": {
+   "billingItemId": "number"
+  }
+ },
+ "autotask_get_company_note": {
+  "params": [
+   "companyId",
+   "noteId"
+  ],
+  "required": [
+   "companyId",
+   "noteId"
+  ],
+  "types": {
+   "companyId": "number",
+   "noteId": "number"
+  }
+ },
+ "autotask_get_company_site_configuration": {
+  "params": [
+   "companyId"
+  ],
+  "required": [
+   "companyId"
+  ],
+  "types": {
+   "companyId": "number"
+  }
+ },
+ "autotask_get_contract": {
+  "params": [
+   "id"
+  ],
+  "required": [
+   "id"
+  ],
+  "types": {
+   "id": "number"
+  }
+ },
+ "autotask_get_contract_recurring_lines": {
+  "params": [
+   "activeOn",
+   "contractID"
+  ],
+  "required": [
+   "contractID"
+  ],
+  "types": {
+   "activeOn": "string",
+   "contractID": "number"
+  }
+ },
+ "autotask_get_expense_report": {
+  "params": [
+   "reportId"
+  ],
+  "required": [
+   "reportId"
+  ],
+  "types": {
+   "reportId": "number"
+  }
+ },
+ "autotask_get_field_info": {
+  "params": [
+   "entityType",
+   "fieldName"
+  ],
+  "required": [
+   "entityType"
+  ],
+  "types": {
+   "entityType": "string",
+   "fieldName": "string"
+  }
+ },
+ "autotask_get_invoice_details": {
+  "params": [
+   "invoiceId"
+  ],
+  "required": [
+   "invoiceId"
+  ],
+  "types": {
+   "invoiceId": "number"
+  }
+ },
+ "autotask_get_opportunity": {
+  "params": [
+   "opportunityId"
+  ],
+  "required": [
+   "opportunityId"
+  ],
+  "types": {
+   "opportunityId": "number"
+  }
+ },
+ "autotask_get_product": {
+  "params": [
+   "productId"
+  ],
+  "required": [
+   "productId"
+  ],
+  "types": {
+   "productId": "number"
+  }
+ },
+ "autotask_get_project_note": {
+  "params": [
+   "noteId",
+   "projectId"
+  ],
+  "required": [
+   "noteId",
+   "projectId"
+  ],
+  "types": {
+   "noteId": "number",
+   "projectId": "number"
+  }
+ },
+ "autotask_get_quote": {
+  "params": [
+   "quoteId"
+  ],
+  "required": [
+   "quoteId"
+  ],
+  "types": {
+   "quoteId": "number"
+  }
+ },
+ "autotask_get_quote_item": {
+  "params": [
+   "quoteItemId"
+  ],
+  "required": [
+   "quoteItemId"
+  ],
+  "types": {
+   "quoteItemId": "number"
+  }
+ },
+ "autotask_get_service": {
+  "params": [
+   "serviceId"
+  ],
+  "required": [
+   "serviceId"
+  ],
+  "types": {
+   "serviceId": "number"
+  }
+ },
+ "autotask_get_service_bundle": {
+  "params": [
+   "serviceBundleId"
+  ],
+  "required": [
+   "serviceBundleId"
+  ],
+  "types": {
+   "serviceBundleId": "number"
+  }
+ },
+ "autotask_get_service_call": {
+  "params": [
+   "serviceCallId"
+  ],
+  "required": [
+   "serviceCallId"
+  ],
+  "types": {
+   "serviceCallId": "number"
+  }
+ },
+ "autotask_get_ticket_attachment": {
+  "params": [
+   "attachmentId",
+   "includeData",
+   "maxInlineBase64Bytes",
+   "ticketId"
+  ],
+  "required": [
+   "attachmentId",
+   "ticketId"
+  ],
+  "types": {
+   "attachmentId": "number",
+   "includeData": "boolean",
+   "maxInlineBase64Bytes": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_get_ticket_charge": {
+  "params": [
+   "chargeId"
+  ],
+  "required": [
+   "chargeId"
+  ],
+  "types": {
+   "chargeId": "number"
+  }
+ },
+ "autotask_get_ticket_details": {
+  "params": [
+   "fullDetails",
+   "ticketID"
+  ],
+  "required": [
+   "ticketID"
+  ],
+  "types": {
+   "fullDetails": "boolean",
+   "ticketID": "number"
+  }
+ },
+ "autotask_get_ticket_history": {
+  "params": [
+   "historyId"
+  ],
+  "required": [
+   "historyId"
+  ],
+  "types": {
+   "historyId": "number"
+  }
+ },
+ "autotask_get_ticket_note": {
+  "params": [
+   "noteId",
+   "ticketId"
+  ],
+  "required": [
+   "noteId",
+   "ticketId"
+  ],
+  "types": {
+   "noteId": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_get_ticket_note_attachment": {
+  "params": [
+   "attachmentId",
+   "includeData",
+   "maxInlineBase64Bytes",
+   "ticketNoteId"
+  ],
+  "required": [
+   "attachmentId",
+   "ticketNoteId"
+  ],
+  "types": {
+   "attachmentId": "number",
+   "includeData": "boolean",
+   "maxInlineBase64Bytes": "number",
+   "ticketNoteId": "number"
+  }
+ },
+ "autotask_list_categories": {
+  "params": [],
+  "required": [],
+  "types": {}
+ },
+ "autotask_list_category_tools": {
+  "params": [
+   "category"
+  ],
+  "required": [
+   "category"
+  ],
+  "types": {
+   "category": "string"
+  }
+ },
+ "autotask_list_expiring_contracts": {
+  "params": [
+   "companyID",
+   "daysAhead",
+   "includeExpired",
+   "pageSize",
+   "status"
+  ],
+  "required": [],
+  "types": {
+   "companyID": "number",
+   "daysAhead": "number",
+   "includeExpired": "boolean",
+   "pageSize": "number",
+   "status": "number"
+  }
+ },
+ "autotask_list_phases": {
+  "params": [
+   "pageSize",
+   "projectID"
+  ],
+  "required": [
+   "projectID"
+  ],
+  "types": {
+   "pageSize": "number",
+   "projectID": "number"
+  }
+ },
+ "autotask_list_queues": {
+  "params": [],
+  "required": [],
+  "types": {}
+ },
+ "autotask_list_ticket_priorities": {
+  "params": [],
+  "required": [],
+  "types": {}
+ },
+ "autotask_list_ticket_statuses": {
+  "params": [],
+  "required": [],
+  "types": {}
+ },
+ "autotask_raw_request": {
+  "params": [
+   "body",
+   "method",
+   "path",
+   "queryParams"
+  ],
+  "required": [
+   "method",
+   "path"
+  ],
+  "types": {
+   "body": "object",
+   "method": "string",
+   "path": "string",
+   "queryParams": "object"
+  }
+ },
+ "autotask_router": {
+  "params": [
+   "intent"
+  ],
+  "required": [
+   "intent"
+  ],
+  "types": {
+   "intent": "string"
+  }
+ },
+ "autotask_search_billing_codes": {
+  "params": [
+   "includeInactive",
+   "name",
+   "useType"
+  ],
+  "required": [],
+  "types": {
+   "includeInactive": "boolean",
+   "name": "string",
+   "useType": "number"
+  }
+ },
+ "autotask_search_billing_item_approval_levels": {
+  "params": [
+   "approvalLevel",
+   "approvalResourceId",
+   "approvedAfter",
+   "approvedBefore",
+   "page",
+   "pageSize",
+   "timeEntryId"
+  ],
+  "required": [],
+  "types": {
+   "approvalLevel": "number",
+   "approvalResourceId": "number",
+   "approvedAfter": "string",
+   "approvedBefore": "string",
+   "page": "number",
+   "pageSize": "number",
+   "timeEntryId": "number"
+  }
+ },
+ "autotask_search_billing_items": {
+  "params": [
+   "companyId",
+   "contractId",
+   "dateFrom",
+   "dateTo",
+   "invoiceId",
+   "isInvoiced",
+   "page",
+   "pageSize",
+   "postedAfter",
+   "postedBefore",
+   "projectId",
+   "ticketId"
+  ],
+  "required": [],
+  "types": {
+   "companyId": "number",
+   "contractId": "number",
+   "dateFrom": "string",
+   "dateTo": "string",
+   "invoiceId": "number",
+   "isInvoiced": "boolean",
+   "page": "number",
+   "pageSize": "number",
+   "postedAfter": "string",
+   "postedBefore": "string",
+   "projectId": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_search_companies": {
+  "params": [
+   "isActive",
+   "page",
+   "pageSize",
+   "searchTerm"
+  ],
+  "required": [],
+  "types": {
+   "isActive": "boolean",
+   "page": "number",
+   "pageSize": "number",
+   "searchTerm": "string"
+  }
+ },
+ "autotask_search_company_notes": {
+  "params": [
+   "companyId",
+   "pageSize"
+  ],
+  "required": [
+   "companyId"
+  ],
+  "types": {
+   "companyId": "number",
+   "pageSize": "number"
+  }
+ },
+ "autotask_search_configuration_items": {
+  "params": [
+   "companyID",
+   "configurationItemCategoryID",
+   "configurationItemType",
+   "isActive",
+   "pageSize",
+   "productID",
+   "searchTerm"
+  ],
+  "required": [],
+  "types": {
+   "companyID": "number",
+   "configurationItemCategoryID": "number",
+   "configurationItemType": "number",
+   "isActive": "boolean",
+   "pageSize": "number",
+   "productID": "number",
+   "searchTerm": "string"
+  }
+ },
+ "autotask_search_contacts": {
+  "params": [
+   "companyID",
+   "includeUserDefinedFields",
+   "isActive",
+   "page",
+   "pageSize",
+   "searchTerm"
+  ],
+  "required": [],
+  "types": {
+   "companyID": "number",
+   "includeUserDefinedFields": "boolean",
+   "isActive": "number",
+   "page": "number",
+   "pageSize": "number",
+   "searchTerm": "string"
+  }
+ },
+ "autotask_search_contract_service_bundle_units": {
+  "params": [
+   "activeOn",
+   "contractID",
+   "pageSize"
+  ],
+  "required": [
+   "contractID"
+  ],
+  "types": {
+   "activeOn": "string",
+   "contractID": "number",
+   "pageSize": "number"
+  }
+ },
+ "autotask_search_contract_service_bundles": {
+  "params": [
+   "contractID",
+   "pageSize"
+  ],
+  "required": [
+   "contractID"
+  ],
+  "types": {
+   "contractID": "number",
+   "pageSize": "number"
+  }
+ },
+ "autotask_search_contract_service_units": {
+  "params": [
+   "activeOn",
+   "contractID",
+   "pageSize"
+  ],
+  "required": [
+   "contractID"
+  ],
+  "types": {
+   "activeOn": "string",
+   "contractID": "number",
+   "pageSize": "number"
+  }
+ },
+ "autotask_search_contract_services": {
+  "params": [
+   "contractID",
+   "pageSize"
+  ],
+  "required": [
+   "contractID"
+  ],
+  "types": {
+   "contractID": "number",
+   "pageSize": "number"
+  }
+ },
+ "autotask_search_contracts": {
+  "params": [
+   "companyID",
+   "contractType",
+   "endDateFrom",
+   "endDateTo",
+   "pageSize",
+   "searchTerm",
+   "status"
+  ],
+  "required": [],
+  "types": {
+   "companyID": "number",
+   "contractType": "number",
+   "endDateFrom": "string",
+   "endDateTo": "string",
+   "pageSize": "number",
+   "searchTerm": "string",
+   "status": "number"
+  }
+ },
+ "autotask_search_expense_reports": {
+  "params": [
+   "pageSize",
+   "status",
+   "submitterId"
+  ],
+  "required": [],
+  "types": {
+   "pageSize": "number",
+   "status": "number",
+   "submitterId": "number"
+  }
+ },
+ "autotask_search_invoices": {
+  "params": [
+   "companyID",
+   "invoiceNumber",
+   "isVoided",
+   "pageSize"
+  ],
+  "required": [],
+  "types": {
+   "companyID": "number",
+   "invoiceNumber": "string",
+   "isVoided": "boolean",
+   "pageSize": "number"
+  }
+ },
+ "autotask_search_opportunities": {
+  "params": [
+   "companyId",
+   "pageSize",
+   "searchTerm",
+   "status"
+  ],
+  "required": [],
+  "types": {
+   "companyId": "number",
+   "pageSize": "number",
+   "searchTerm": "string",
+   "status": "number"
+  }
+ },
+ "autotask_search_products": {
+  "params": [
+   "isActive",
+   "pageSize",
+   "searchTerm"
+  ],
+  "required": [],
+  "types": {
+   "isActive": "boolean",
+   "pageSize": "number",
+   "searchTerm": "string"
+  }
+ },
+ "autotask_search_project_notes": {
+  "params": [
+   "pageSize",
+   "projectId"
+  ],
+  "required": [
+   "projectId"
+  ],
+  "types": {
+   "pageSize": "number",
+   "projectId": "number"
+  }
+ },
+ "autotask_search_projects": {
+  "params": [
+   "companyID",
+   "page",
+   "pageSize",
+   "projectLeadResourceID",
+   "searchTerm",
+   "status"
+  ],
+  "required": [],
+  "types": {
+   "companyID": "number",
+   "page": "number",
+   "pageSize": "number",
+   "projectLeadResourceID": "number",
+   "searchTerm": "string",
+   "status": "number"
+  }
+ },
+ "autotask_search_quote_items": {
+  "params": [
+   "pageSize",
+   "quoteId",
+   "searchTerm"
+  ],
+  "required": [],
+  "types": {
+   "pageSize": "number",
+   "quoteId": "number",
+   "searchTerm": "string"
+  }
+ },
+ "autotask_search_quotes": {
+  "params": [
+   "companyId",
+   "contactId",
+   "opportunityId",
+   "pageSize",
+   "searchTerm"
+  ],
+  "required": [],
+  "types": {
+   "companyId": "number",
+   "contactId": "number",
+   "opportunityId": "number",
+   "pageSize": "number",
+   "searchTerm": "string"
+  }
+ },
+ "autotask_search_resource_roles": {
+  "params": [
+   "includeInactive",
+   "resourceId",
+   "resourceName"
+  ],
+  "required": [],
+  "types": {
+   "includeInactive": "boolean",
+   "resourceId": "number",
+   "resourceName": "string"
+  }
+ },
+ "autotask_search_resources": {
+  "params": [
+   "isActive",
+   "page",
+   "pageSize",
+   "resourceType",
+   "searchTerm"
+  ],
+  "required": [],
+  "types": {
+   "isActive": "boolean",
+   "page": "number",
+   "pageSize": "number",
+   "resourceType": "number",
+   "searchTerm": "string"
+  }
+ },
+ "autotask_search_service_bundles": {
+  "params": [
+   "isActive",
+   "pageSize",
+   "searchTerm"
+  ],
+  "required": [],
+  "types": {
+   "isActive": "boolean",
+   "pageSize": "number",
+   "searchTerm": "string"
+  }
+ },
+ "autotask_search_service_call_ticket_resources": {
+  "params": [
+   "pageSize",
+   "resourceId",
+   "serviceCallTicketId"
+  ],
+  "required": [],
+  "types": {
+   "pageSize": "number",
+   "resourceId": "number",
+   "serviceCallTicketId": "number"
+  }
+ },
+ "autotask_search_service_call_tickets": {
+  "params": [
+   "pageSize",
+   "serviceCallId",
+   "ticketId"
+  ],
+  "required": [],
+  "types": {
+   "pageSize": "number",
+   "serviceCallId": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_search_service_calls": {
+  "params": [
+   "companyId",
+   "pageSize",
+   "startAfter",
+   "startBefore",
+   "status"
+  ],
+  "required": [],
+  "types": {
+   "companyId": "number",
+   "pageSize": "number",
+   "startAfter": "string",
+   "startBefore": "string",
+   "status": "number"
+  }
+ },
+ "autotask_search_services": {
+  "params": [
+   "isActive",
+   "pageSize",
+   "searchTerm"
+  ],
+  "required": [],
+  "types": {
+   "isActive": "boolean",
+   "pageSize": "number",
+   "searchTerm": "string"
+  }
+ },
+ "autotask_search_tasks": {
+  "params": [
+   "assignedResourceID",
+   "page",
+   "pageSize",
+   "projectID",
+   "searchTerm",
+   "status"
+  ],
+  "required": [],
+  "types": {
+   "assignedResourceID": "number",
+   "page": "number",
+   "pageSize": "number",
+   "projectID": "number",
+   "searchTerm": "string",
+   "status": "number"
+  }
+ },
+ "autotask_search_ticket_attachments": {
+  "params": [
+   "pageSize",
+   "ticketId"
+  ],
+  "required": [
+   "ticketId"
+  ],
+  "types": {
+   "pageSize": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_search_ticket_charges": {
+  "params": [
+   "pageSize",
+   "ticketId"
+  ],
+  "required": [],
+  "types": {
+   "pageSize": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_search_ticket_checklist_items": {
+  "params": [
+   "ticketId"
+  ],
+  "required": [
+   "ticketId"
+  ],
+  "types": {
+   "ticketId": "number"
+  }
+ },
+ "autotask_search_ticket_history": {
+  "params": [
+   "pageSize",
+   "ticketId"
+  ],
+  "required": [
+   "ticketId"
+  ],
+  "types": {
+   "pageSize": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_search_ticket_note_attachments": {
+  "params": [
+   "pageSize",
+   "ticketNoteId"
+  ],
+  "required": [
+   "ticketNoteId"
+  ],
+  "types": {
+   "pageSize": "number",
+   "ticketNoteId": "number"
+  }
+ },
+ "autotask_search_ticket_notes": {
+  "params": [
+   "pageSize",
+   "ticketId"
+  ],
+  "required": [
+   "ticketId"
+  ],
+  "types": {
+   "pageSize": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_search_tickets": {
+  "params": [
+   "assignedResourceID",
+   "companyID",
+   "contactID",
+   "createdAfter",
+   "createdBefore",
+   "lastActivityAfter",
+   "page",
+   "pageSize",
+   "priority",
+   "queueID",
+   "searchTerm",
+   "status",
+   "unassigned"
+  ],
+  "required": [],
+  "types": {
+   "assignedResourceID": "number",
+   "companyID": "number",
+   "contactID": "number",
+   "createdAfter": "string",
+   "createdBefore": "string",
+   "lastActivityAfter": "string",
+   "page": "number",
+   "pageSize": "number",
+   "priority": "number",
+   "queueID": "number",
+   "searchTerm": "string",
+   "status": "number",
+   "unassigned": "boolean"
+  }
+ },
+ "autotask_search_time_entries": {
+  "params": [
+   "approvalStatus",
+   "billable",
+   "dateWorkedAfter",
+   "dateWorkedBefore",
+   "page",
+   "pageSize",
+   "resourceId",
+   "taskId",
+   "ticketId"
+  ],
+  "required": [],
+  "types": {
+   "approvalStatus": "string",
+   "billable": "boolean",
+   "dateWorkedAfter": "string",
+   "dateWorkedBefore": "string",
+   "page": "number",
+   "pageSize": "number",
+   "resourceId": "number",
+   "taskId": "number",
+   "ticketId": "number"
+  }
+ },
+ "autotask_test_connection": {
+  "params": [],
+  "required": [],
+  "types": {}
+ },
+ "autotask_update_company": {
+  "params": [
+   "address1",
+   "address2",
+   "billToAddressToUse",
+   "billToAttention",
+   "billToCity",
+   "billToCompanyLocationID",
+   "billToCountryID",
+   "billToState",
+   "billToZipCode",
+   "billingAddress1",
+   "billingAddress2",
+   "city",
+   "classification",
+   "companyName",
+   "companyType",
+   "countryID",
+   "id",
+   "invoiceEmailMessageID",
+   "invoiceMethod",
+   "invoiceTemplateID",
+   "isActive",
+   "isTaxExempt",
+   "ownerResourceID",
+   "phone",
+   "postalCode",
+   "purchaseOrderTemplateID",
+   "quoteEmailMessageID",
+   "quoteTemplateID",
+   "state",
+   "taxID",
+   "taxRegionID",
+   "webAddress"
+  ],
+  "required": [
+   "id"
+  ],
+  "types": {
+   "address1": "string",
+   "address2": "string",
+   "billToAddressToUse": "number",
+   "billToAttention": "string",
+   "billToCity": "string",
+   "billToCompanyLocationID": "number",
+   "billToCountryID": "number",
+   "billToState": "string",
+   "billToZipCode": "string",
+   "billingAddress1": "string",
+   "billingAddress2": "string",
+   "city": "string",
+   "classification": "number",
+   "companyName": "string",
+   "companyType": "number",
+   "countryID": "number",
+   "id": "number",
+   "invoiceEmailMessageID": "number",
+   "invoiceMethod": "number",
+   "invoiceTemplateID": "number",
+   "isActive": "boolean",
+   "isTaxExempt": "boolean",
+   "ownerResourceID": "number",
+   "phone": "string",
+   "postalCode": "string",
+   "purchaseOrderTemplateID": "number",
+   "quoteEmailMessageID": "number",
+   "quoteTemplateID": "number",
+   "state": "string",
+   "taxID": "string",
+   "taxRegionID": "number",
+   "webAddress": "string"
+  }
+ },
+ "autotask_update_company_site_configuration": {
+  "params": [
+   "id",
+   "updates"
+  ],
+  "required": [
+   "id",
+   "updates"
+  ],
+  "types": {
+   "id": "number",
+   "updates": "object"
+  }
+ },
+ "autotask_update_contact": {
+  "params": [
+   "addressLine",
+   "addressLine1",
+   "city",
+   "countryID",
+   "emailAddress",
+   "firstName",
+   "id",
+   "isActive",
+   "lastName",
+   "mobilePhone",
+   "phone",
+   "primaryContact",
+   "state",
+   "title",
+   "userDefinedFields",
+   "zipCode"
+  ],
+  "required": [
+   "id"
+  ],
+  "types": {
+   "addressLine": "string",
+   "addressLine1": "string",
+   "city": "string",
+   "countryID": "number",
+   "emailAddress": "string",
+   "firstName": "string",
+   "id": "number",
+   "isActive": "boolean",
+   "lastName": "string",
+   "mobilePhone": "string",
+   "phone": "string",
+   "primaryContact": "boolean",
+   "state": "string",
+   "title": "string",
+   "userDefinedFields": "array",
+   "zipCode": "string"
+  }
+ },
+ "autotask_update_contract": {
+  "params": [
+   "billToCompanyContactID",
+   "billToCompanyID",
+   "billingPreference",
+   "companyID",
+   "contactID",
+   "contractCategory",
+   "contractExclusionSetID",
+   "contractName",
+   "contractNumber",
+   "contractPeriodType",
+   "contractType",
+   "description",
+   "endDate",
+   "estimatedCost",
+   "estimatedHours",
+   "estimatedRevenue",
+   "exclusionContractID",
+   "id",
+   "internalCurrencyOverageBillingRate",
+   "internalCurrencySetupFee",
+   "isDefaultContract",
+   "opportunityID",
+   "organizationalLevelAssociationID",
+   "overageBillingRate",
+   "purchaseOrderNumber",
+   "renewedContractID",
+   "serviceLevelAgreementID",
+   "setupFee",
+   "setupFeeBillingCodeID",
+   "startDate",
+   "status",
+   "timeReportingRequiresStartAndStopTimes"
+  ],
+  "required": [
+   "id"
+  ],
+  "types": {
+   "billToCompanyContactID": "number",
+   "billToCompanyID": "number",
+   "billingPreference": "number",
+   "companyID": "number",
+   "contactID": "number",
+   "contractCategory": "number",
+   "contractExclusionSetID": "number",
+   "contractName": "string",
+   "contractNumber": "string",
+   "contractPeriodType": "number",
+   "contractType": "number",
+   "description": "string",
+   "endDate": "string",
+   "estimatedCost": "number",
+   "estimatedHours": "number",
+   "estimatedRevenue": "number",
+   "exclusionContractID": "number",
+   "id": "number",
+   "internalCurrencyOverageBillingRate": "number",
+   "internalCurrencySetupFee": "number",
+   "isDefaultContract": "boolean",
+   "opportunityID": "number",
+   "organizationalLevelAssociationID": "number",
+   "overageBillingRate": "number",
+   "purchaseOrderNumber": "string",
+   "renewedContractID": "number",
+   "serviceLevelAgreementID": "number",
+   "setupFee": "number",
+   "setupFeeBillingCodeID": "number",
+   "startDate": "string",
+   "status": "number",
+   "timeReportingRequiresStartAndStopTimes": "number"
+  }
+ },
+ "autotask_update_contract_service": {
+  "params": [
+   "adjustedPrice",
+   "contractID",
+   "id",
+   "internalCurrencyUnitPrice",
+   "invoiceDescription",
+   "quoteItemID",
+   "serviceID",
+   "unitCost",
+   "unitPrice"
+  ],
+  "required": [
+   "contractID",
+   "id"
+  ],
+  "types": {
+   "adjustedPrice": "number",
+   "contractID": "number",
+   "id": "number",
+   "internalCurrencyUnitPrice": "number",
+   "invoiceDescription": "string",
+   "quoteItemID": "number",
+   "serviceID": "number",
+   "unitCost": "number",
+   "unitPrice": "number"
+  }
+ },
+ "autotask_update_project": {
+  "params": [
+   "assignedResourceID",
+   "assignedResourceRoleID",
+   "departmentID",
+   "description",
+   "endDateTime",
+   "estimatedTime",
+   "projectId",
+   "projectLeadResourceID",
+   "projectName",
+   "startDateTime",
+   "status",
+   "userDefinedFields"
+  ],
+  "required": [
+   "projectId"
+  ],
+  "types": {
+   "assignedResourceID": "number",
+   "assignedResourceRoleID": "number",
+   "departmentID": "number",
+   "description": "string",
+   "endDateTime": "string",
+   "estimatedTime": "number",
+   "projectId": "number",
+   "projectLeadResourceID": "number",
+   "projectName": "string",
+   "startDateTime": "string",
+   "status": "number",
+   "userDefinedFields": "array"
+  }
+ },
+ "autotask_update_quote_item": {
+  "params": [
+   "isOptional",
+   "lineDiscount",
+   "percentageDiscount",
+   "quantity",
+   "quoteItemId",
+   "sortOrderID",
+   "unitDiscount",
+   "unitPrice"
+  ],
+  "required": [
+   "quoteItemId"
+  ],
+  "types": {
+   "isOptional": "boolean",
+   "lineDiscount": "number",
+   "percentageDiscount": "number",
+   "quantity": "number",
+   "quoteItemId": "number",
+   "sortOrderID": "number",
+   "unitDiscount": "number",
+   "unitPrice": "number"
+  }
+ },
+ "autotask_update_service_call": {
+  "params": [
+   "complete",
+   "description",
+   "endDateTime",
+   "serviceCallId",
+   "startDateTime",
+   "status"
+  ],
+  "required": [
+   "serviceCallId"
+  ],
+  "types": {
+   "complete": "boolean",
+   "description": "string",
+   "endDateTime": "string",
+   "serviceCallId": "number",
+   "startDateTime": "string",
+   "status": "number"
+  }
+ },
+ "autotask_update_ticket": {
+  "params": [
+   "assignedResourceID",
+   "assignedResourceRoleID",
+   "assignedResourceRoleName",
+   "billingCodeID",
+   "contactID",
+   "description",
+   "dueDateTime",
+   "issueType",
+   "priority",
+   "queueID",
+   "status",
+   "subIssueType",
+   "ticketId",
+   "title"
+  ],
+  "required": [
+   "ticketId"
+  ],
+  "types": {
+   "assignedResourceID": "number",
+   "assignedResourceRoleID": "number",
+   "assignedResourceRoleName": "string",
+   "billingCodeID": "number",
+   "contactID": "number",
+   "description": "string",
+   "dueDateTime": "string",
+   "issueType": "number",
+   "priority": "number",
+   "queueID": "number",
+   "status": "number",
+   "subIssueType": "number",
+   "ticketId": "number",
+   "title": "string"
+  }
+ },
+ "autotask_update_ticket_charge": {
+  "params": [
+   "billableToAccount",
+   "chargeId",
+   "description",
+   "name",
+   "status",
+   "unitCost",
+   "unitPrice",
+   "unitQuantity"
+  ],
+  "required": [
+   "chargeId"
+  ],
+  "types": {
+   "billableToAccount": "boolean",
+   "chargeId": "number",
+   "description": "string",
+   "name": "string",
+   "status": "number",
+   "unitCost": "number",
+   "unitPrice": "number",
+   "unitQuantity": "number"
+  }
+ },
+ "autotask_update_ticket_checklist_item": {
+  "params": [
+   "isCompleted",
+   "itemId",
+   "itemName",
+   "position",
+   "ticketId"
+  ],
+  "required": [
+   "itemId",
+   "ticketId"
+  ],
+  "types": {
+   "isCompleted": "boolean",
+   "itemId": "number",
+   "itemName": "string",
+   "position": "number",
+   "ticketId": "number"
+  }
+ }
+}
