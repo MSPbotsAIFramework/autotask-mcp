@@ -1,0 +1,139 @@
+[
+  {
+    "id": "TC-ATC-001",
+    "ac": "AC1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a contact whose address is stored only in emailAddress2, when autotask_search_contacts is called with email=<that address>, then that contact is returned.",
+    "tests": [
+      "tests/test_handlers.py::test_search_contacts_matches_email_in_email_address_2"
+    ],
+    "result": "pass",
+    "evidence": "pytest tests/test_handlers.py::test_search_contacts_matches_email_in_email_address_2 PASSED (uv run pytest -q, commit e604fed)"
+  },
+  {
+    "id": "TC-ATC-002",
+    "ac": "AC1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a contact whose address is stored only in emailAddress3, when autotask_search_contacts is called with email=<that address>, then that contact is returned.",
+    "tests": [
+      "tests/test_handlers.py::test_search_contacts_matches_email_in_email_address_3"
+    ],
+    "result": "pass",
+    "evidence": "pytest tests/test_handlers.py::test_search_contacts_matches_email_in_email_address_3 PASSED (uv run pytest -q, commit e604fed)"
+  },
+  {
+    "id": "TC-ATC-003",
+    "ac": "AC1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a contact whose emailAddress is jane.doe@example.com, when autotask_search_contacts is called with email=jane.doe@example (a substring, not the full address), then no contact is returned -- the email filter is an exact match, not a contains match.",
+    "tests": [
+      "tests/test_handlers.py::test_search_contacts_email_filter_is_exact_not_contains"
+    ],
+    "result": "pass",
+    "evidence": "pytest tests/test_handlers.py::test_search_contacts_email_filter_is_exact_not_contains PASSED (uv run pytest -q, commit e604fed)"
+  },
+  {
+    "id": "TC-ATC-004",
+    "ac": "AC1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given no contact has the searched address in any of the three email fields, when autotask_search_contacts is called with that email, then the result has an empty items list, count 0, and has_more false -- not an error.",
+    "tests": [
+      "tests/test_handlers.py::test_search_contacts_email_filter_no_match_returns_empty"
+    ],
+    "result": "pass",
+    "evidence": "pytest tests/test_handlers.py::test_search_contacts_email_filter_no_match_returns_empty PASSED (uv run pytest -q, commit e604fed)"
+  },
+  {
+    "id": "TC-ATC-005",
+    "ac": "AC2",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a contact matched by the email filter, when includeUserDefinedFields=true is also passed, then the result includes userDefinedFields as a list of {name, value} pairs for that contact.",
+    "tests": [
+      "tests/test_handlers.py::test_search_contacts_email_filter_with_udfs"
+    ],
+    "result": "pass",
+    "evidence": "pytest tests/test_handlers.py::test_search_contacts_email_filter_with_udfs PASSED (uv run pytest -q, commit e604fed)"
+  },
+  {
+    "id": "TC-ATC-006",
+    "ac": "AC2",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a contact matched by the email filter, when includeUserDefinedFields is omitted (default false), then userDefinedFields is not present in the result -- existing opt-out-by-default behavior is unchanged by adding the email filter.",
+    "tests": [
+      "tests/test_handlers.py::test_search_contacts_hides_udfs_by_default"
+    ],
+    "result": "pass",
+    "evidence": "pytest tests/test_handlers.py::test_search_contacts_hides_udfs_by_default PASSED (pre-existing test, unaffected; uv run pytest -q, commit e604fed)"
+  },
+  {
+    "id": "TC-ATC-007",
+    "ac": "AC3",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a contact with companyID and isActive set, when that contact is found via the email filter, then both companyID and isActive are present in the result.",
+    "tests": [
+      "tests/test_handlers.py::test_search_contacts_email_filter_retains_company_and_active_fields"
+    ],
+    "result": "pass",
+    "evidence": "pytest tests/test_handlers.py::test_search_contacts_email_filter_retains_company_and_active_fields PASSED (uv run pytest -q, commit e604fed)"
+  },
+  {
+    "id": "TC-ATC-008",
+    "ac": "AC4",
+    "type": "auto",
+    "source": "design",
+    "text": "Given autotask_search_contacts is called with searchTerm (no email param), when the search runs, then matching is unchanged from today: contains-match against firstName, lastName and emailAddress only, not emailAddress2 or emailAddress3 -- this is the existing-searches-unchanged regression case.",
+    "tests": [
+      "tests/test_handlers.py::test_search_contacts_search_term_behavior_unchanged"
+    ],
+    "result": "pass",
+    "evidence": "pytest tests/test_handlers.py::test_search_contacts_search_term_behavior_unchanged PASSED (uv run pytest -q, commit e604fed)"
+  },
+  {
+    "id": "TC-ATC-009",
+    "ac": "AC1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given both companyID and email are passed together, when autotask_search_contacts runs, then only a contact that matches both the company and one of the three email fields is returned -- companyID and the email filter are ANDed, not ORed.",
+    "tests": [
+      "tests/test_handlers.py::test_search_contacts_email_and_company_id_are_anded"
+    ],
+    "result": "pass",
+    "evidence": "pytest tests/test_handlers.py::test_search_contacts_email_and_company_id_are_anded PASSED (uv run pytest -q, commit e604fed)"
+  },
+  {
+    "id": "TC-ATC-010",
+    "ac": "AC6",
+    "type": "manual",
+    "source": "design",
+    "text": "Given a real Autotask test connection with a submitter contact whose role UDF is the decision-maker value and whose email is stored in emailAddress3, and a departing contact in the same company, when the offboarding flow calls autotask_search_contacts(email=<submitter>, includeUserDefinedFields=true) and then with the departing contact's email, then both contacts are found, both show isActive=true and the same companyID, and the submitter's userDefinedFields contains the role value -- all without calling autotask_raw_request.",
+    "steps": [
+      "1) Obtain a real Autotask test connection (zone + API user) with a contact whose role UDF equals the decision-maker value and whose email is in emailAddress2 or emailAddress3.",
+      "2) Call autotask_search_contacts(email=<submitter email>, includeUserDefinedFields=true).",
+      "3) Call autotask_search_contacts(email=<departing contact email>, includeUserDefinedFields=true).",
+      "4) Compare companyID and isActive across both results; read the role UDF from the submitter's userDefinedFields.",
+      "5) Confirm autotask_raw_request was not called at any point."
+    ],
+    "expect": "Both contacts are found by exact email match on a non-primary email field; both show isActive=true and the same companyID; the submitter's userDefinedFields list contains the role name/value; no call to autotask_raw_request was needed.",
+    "result": "untested",
+    "evidence": "needs a real Autotask vendor account/test connection; not available during design or local dev -- does not block design, dev, or review (references/mcp-track.md section 3: missing a vendor test account is not a blocker)."
+  },
+  {
+    "id": "TC-ATC-011",
+    "ac": "AC1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given two different tenants' credentials (two distinct X-Api-Key/X-Api-Secret/X-Api-Url header sets), when the same email value is searched under each tenant's credentials in separate requests, then each call only queries that tenant's own Autotask zone through its own per-request AutotaskClient -- the new email filter adds no shared or cached state across requests.",
+    "tests": [
+      "tests/test_handlers.py::test_search_contacts_email_filter_uses_per_request_credentials"
+    ],
+    "result": "pass",
+    "evidence": "pytest tests/test_handlers.py::test_search_contacts_email_filter_uses_per_request_credentials PASSED (uv run pytest -q, commit e604fed)"
+  }
+]

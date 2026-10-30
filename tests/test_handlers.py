@@ -279,6 +279,142 @@ async def test_search_contacts_hides_udfs_by_default(call):
 
 
 @respx.mock
+async def test_search_contacts_matches_email_in_email_address_2(call):
+    route = respx.post(f"{ZONE}/Contacts/query").mock(
+        return_value=httpx.Response(200, json={"items": [{"id": 1, "emailAddress2": "jane@example.com"}]})
+    )
+    out = await call("autotask_search_contacts", email="jane@example.com")
+    sent = body_of(route)
+    assert {
+        "op": "or",
+        "items": [
+            {"op": "eq", "field": "emailAddress", "value": "jane@example.com"},
+            {"op": "eq", "field": "emailAddress2", "value": "jane@example.com"},
+            {"op": "eq", "field": "emailAddress3", "value": "jane@example.com"},
+        ],
+    } in sent["Filter"]
+    assert out["items"][0]["emailAddress2"] == "jane@example.com"
+
+
+@respx.mock
+async def test_search_contacts_matches_email_in_email_address_3(call):
+    respx.post(f"{ZONE}/Contacts/query").mock(
+        return_value=httpx.Response(200, json={"items": [{"id": 2, "emailAddress3": "jane@example.com"}]})
+    )
+    out = await call("autotask_search_contacts", email="jane@example.com")
+    assert out["items"][0]["id"] == 2
+
+
+@respx.mock
+async def test_search_contacts_email_filter_is_exact_not_contains(call):
+    # The real Autotask API would not match on a substring either; this proves the
+    # request we send is an exact "eq", not a "contains", clause.
+    route = respx.post(f"{ZONE}/Contacts/query").mock(return_value=httpx.Response(200, json={"items": []}))
+    await call("autotask_search_contacts", email="jane.doe@example")
+    sent = body_of(route)
+    for clause in sent["Filter"]:
+        if clause.get("op") == "or":
+            for item in clause["items"]:
+                assert item["op"] == "eq"
+
+
+@respx.mock
+async def test_search_contacts_email_filter_no_match_returns_empty(call):
+    respx.post(f"{ZONE}/Contacts/query").mock(return_value=httpx.Response(200, json={"items": []}))
+    out = await call("autotask_search_contacts", email="nobody@example.com")
+    assert out == {"items": [], "count": 0, "page_number": 1, "page_size": 25, "has_more": False}
+
+
+@respx.mock
+async def test_search_contacts_email_filter_with_udfs(call):
+    respx.post(f"{ZONE}/Contacts/query").mock(
+        return_value=httpx.Response(
+            200,
+            json={
+                "items": [
+                    {
+                        "id": 1,
+                        "emailAddress3": "jane@example.com",
+                        "userDefinedFields": [{"name": "Roles", "value": "Decision-maker"}],
+                    }
+                ]
+            },
+        )
+    )
+    out = await call("autotask_search_contacts", email="jane@example.com", includeUserDefinedFields=True)
+    assert out["items"][0]["userDefinedFields"] == [{"name": "Roles", "value": "Decision-maker"}]
+
+
+@respx.mock
+async def test_search_contacts_email_filter_retains_company_and_active_fields(call):
+    respx.post(f"{ZONE}/Contacts/query").mock(
+        return_value=httpx.Response(
+            200, json={"items": [{"id": 1, "emailAddress3": "jane@example.com", "companyID": 7, "isActive": True}]}
+        )
+    )
+    out = await call("autotask_search_contacts", email="jane@example.com")
+    assert out["items"][0]["companyID"] == 7
+    assert out["items"][0]["isActive"] is True
+
+
+@respx.mock
+async def test_search_contacts_search_term_behavior_unchanged(call):
+    route = respx.post(f"{ZONE}/Contacts/query").mock(return_value=httpx.Response(200, json={"items": []}))
+    await call("autotask_search_contacts", searchTerm="jane")
+    sent = body_of(route)
+    assert {
+        "op": "or",
+        "items": [
+            {"op": "contains", "field": "firstName", "value": "jane"},
+            {"op": "contains", "field": "lastName", "value": "jane"},
+            {"op": "contains", "field": "emailAddress", "value": "jane"},
+        ],
+    } in sent["Filter"]
+    # no email-exact-match clause should appear when `email` is not passed
+    for clause in sent["Filter"]:
+        if clause.get("op") == "or":
+            fields = {item["field"] for item in clause["items"]}
+            assert "emailAddress2" not in fields and "emailAddress3" not in fields
+
+
+@respx.mock
+async def test_search_contacts_email_and_company_id_are_anded(call):
+    route = respx.post(f"{ZONE}/Contacts/query").mock(return_value=httpx.Response(200, json={"items": []}))
+    await call("autotask_search_contacts", email="jane@example.com", companyID=5)
+    sent = body_of(route)
+    assert {"op": "eq", "field": "companyID", "value": 5} in sent["Filter"]
+    assert any(
+        c.get("op") == "or" and {"op": "eq", "field": "emailAddress2", "value": "jane@example.com"} in c["items"]
+        for c in sent["Filter"]
+    )
+    # both conditions are separate entries in the Filter list -> Autotask ANDs top-level Filter entries
+    assert len(sent["Filter"]) == 2
+
+
+@respx.mock
+async def test_search_contacts_email_filter_uses_per_request_credentials(call):
+    zone_a = ZONE
+    zone_b = "https://webservices7.autotask.net/ATServicesRest/v1.0"
+    route_a = respx.post(f"{zone_a}/Contacts/query").mock(
+        return_value=httpx.Response(200, json={"items": [{"id": 1, "emailAddress2": "shared@example.com"}]})
+    )
+    route_b = respx.post(f"{zone_b}/Contacts/query").mock(
+        return_value=httpx.Response(200, json={"items": [{"id": 99, "emailAddress2": "shared@example.com"}]})
+    )
+    out_a = await call("autotask_search_contacts", email="shared@example.com")
+    assert out_a["items"][0]["id"] == 1
+    assert route_a.call_count == 1 and route_b.call_count == 0
+
+    token = with_creds(api_url="https://webservices7.autotask.net/ATServicesRest/")
+    try:
+        out_b = await call("autotask_search_contacts", email="shared@example.com")
+    finally:
+        credentials._current.reset(token)
+    assert out_b["items"][0]["id"] == 99
+    assert route_a.call_count == 1 and route_b.call_count == 1
+
+
+@respx.mock
 async def test_search_billing_codes_adds_use_type_label(call):
     route = respx.post(f"{ZONE}/BillingCodes/query").mock(
         return_value=httpx.Response(200, json={"items": [{"id": 9, "name": "Remote", "useType": 1, "isActive": True}]})

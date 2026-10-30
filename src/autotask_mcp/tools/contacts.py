@@ -45,6 +45,7 @@ def register(mcp: FastMCP, settings: Settings) -> None:
         "includeUserDefinedFields is true.",
         READ,
         Opt("searchTerm", str, "Text contained in the first name, last name or email address."),
+        Opt("email", str, "Exact match against emailAddress, emailAddress2, or emailAddress3."),
         Opt("companyID", int, "Company ID."),
         Opt("isActive", int, "1 = active only, 0 = inactive only."),
         PAGE,
@@ -76,6 +77,14 @@ def register(mcp: FastMCP, settings: Settings) -> None:
                     }
                 )
             filters.append(any_of(*options))
+        if a.email:
+            filters.append(
+                any_of(
+                    op("eq", "emailAddress", a.email),
+                    op("eq", "emailAddress2", a.email),
+                    op("eq", "emailAddress3", a.email),
+                )
+            )
         drop = None if a.includeUserDefinedFields else {"userDefinedFields"}
         return await search(c, "Contacts", filters, a, drop=drop)
 

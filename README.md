@@ -132,6 +132,10 @@ Behaviour notes:
 - Some zones do not register collection-level write routes (`POST`/`PATCH /Contacts` answers with
   an HTML 404). Writes to child entities fall back to the parent URL (e.g.
   `/Companies/{companyID}/Contacts`, `/Tickets/{id}/Notes`) when the zone answers 404 or 405.
+- `autotask_search_contacts` accepts an optional `email` parameter that exact-matches
+  `emailAddress`, `emailAddress2`, or `emailAddress3` (ANDed with `companyID`/`isActive` when
+  set); it is independent of the fuzzy `searchTerm` match, which still only checks `firstName`,
+  `lastName` and `emailAddress` by `contains`.
 - A ticket's Work Type is `billingCodeID`, a reference to `BillingCodes`, not a picklist:
   `autotask_get_field_info` cannot list it; use `autotask_search_billing_codes` (useType 1 = Work
   Type, 3 = internal time).
