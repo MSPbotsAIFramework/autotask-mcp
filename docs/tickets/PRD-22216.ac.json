@@ -1,0 +1,118 @@
+[
+ {
+  "id": "TC-ATT-001",
+  "ac": "AC1",
+  "type": "auto",
+  "source": "design",
+  "text": "Given Autotask answers GET /Tickets/{t}/Attachments/{a} with {\"items\":[record]}, when autotask_get_ticket_attachment is called without includeData, then the metadata is returned and there is no error.",
+  "tests": [
+   "tests/test_handlers.py::test_get_ticket_attachment_items_shape_metadata"
+  ],
+  "result": "untested"
+ },
+ {
+  "id": "TC-ATT-002",
+  "ac": "AC1",
+  "type": "auto",
+  "source": "design",
+  "text": "Given the parent-scoped GET answers 404 and GET /TicketAttachments/{a} answers {\"items\":[record]}, when called with includeData false, then the metadata is returned.",
+  "tests": [
+   "tests/test_handlers.py::test_get_ticket_attachment_items_shape_fallback"
+  ],
+  "result": "untested"
+ },
+ {
+  "id": "TC-ATT-003",
+  "ac": "AC2",
+  "type": "auto",
+  "source": "design",
+  "text": "Given GET /TicketAttachments/{a} answers {\"items\":[record with data]}, when called with includeData=true, then the result contains data.",
+  "tests": [
+   "tests/test_handlers.py::test_get_ticket_attachment_items_shape_data"
+  ],
+  "result": "untested"
+ },
+ {
+  "id": "TC-ATT-004",
+  "ac": "AC2",
+  "type": "auto",
+  "source": "design",
+  "text": "Given the same items-shaped answer and maxInlineBase64Bytes smaller than the content, when called with includeData=true, then data is absent and dataOmittedReason and dataLength are present.",
+  "tests": [
+   "tests/test_handlers.py::test_get_ticket_attachment_items_shape_cap"
+  ],
+  "result": "untested"
+ },
+ {
+  "id": "TC-ATT-005",
+  "ac": "AC3",
+  "type": "auto",
+  "source": "design",
+  "text": "Given an items-shaped record whose parentID is another ticket, when called with this ticket id, then the result is a not_found error.",
+  "tests": [
+   "tests/test_handlers.py::test_get_ticket_attachment_items_shape_wrong_ticket"
+  ],
+  "result": "untested"
+ },
+ {
+  "id": "TC-ATT-006",
+  "ac": "AC4",
+  "type": "auto",
+  "source": "design",
+  "text": "Given Autotask answers {\"items\":[]}, when called, then the result is a not_found error.",
+  "tests": [
+   "tests/test_handlers.py::test_get_ticket_attachment_empty_items_not_found"
+  ],
+  "result": "untested"
+ },
+ {
+  "id": "TC-ATT-007",
+  "ac": "AC5",
+  "type": "auto",
+  "source": "design",
+  "text": "Given Autotask answers {\"item\":{record}}, when called with includeData false and true, then both succeed as before.",
+  "tests": [
+   "tests/test_handlers.py::test_get_ticket_attachment_strips_large_data",
+   "tests/test_handlers.py::test_get_ticket_attachment_item_shape_metadata"
+  ],
+  "result": "untested"
+ },
+ {
+  "id": "TC-ATT-008",
+  "ac": "AC6",
+  "type": "auto",
+  "source": "design",
+  "text": "Given an items-shaped answer for a ticket note attachment, when autotask_get_ticket_note_attachment is called, then metadata and data are returned.",
+  "tests": [
+   "tests/test_handlers.py::test_get_ticket_note_attachment_items_shape"
+  ],
+  "result": "untested"
+ },
+ {
+  "id": "TC-ATT-009",
+  "ac": "AC1",
+  "type": "auto",
+  "source": "design",
+  "text": "Given items holds two records, when called with the id of the second, then that record is returned.",
+  "tests": [
+   "tests/test_handlers.py::test_get_ticket_attachment_items_shape_picks_matching_id"
+  ],
+  "result": "untested"
+ },
+ {
+  "id": "TC-ATT-010",
+  "ac": "AC1",
+  "type": "manual",
+  "source": "design",
+  "text": "On a real Autotask zone, read a PDF attachment listed by autotask_search_ticket_attachments with includeData false and then true; both return the record and the second returns the file content.",
+  "needs": "real Autotask vendor account",
+  "result": "untested",
+  "precond": "Real Autotask zone credentials and a ticket with a PDF attachment",
+  "steps": [
+   "Call autotask_search_ticket_attachments for the ticket",
+   "Call autotask_get_ticket_attachment for a listed attachment with includeData false",
+   "Repeat with includeData true"
+  ],
+  "expect": "Both calls return the attachment record without error; the second also returns the file content (base64 data)"
+ }
+]
