@@ -81,6 +81,12 @@ PAGE = Opt("page", int, "Page number, starting at 1 (default 1).")
 PAGE_SIZE = Opt("pageSize", int, f"Results per page (default {DEFAULT_PAGE_SIZE}, max {MAX_PAGE_SIZE}).")
 
 
+def phone_tail(phone: str | None, n: int = 4) -> str | None:
+    """Last ``n`` digits of a phone number: the longest substring that survives free-text formatting."""
+    digits = "".join(ch for ch in phone or "" if ch.isdigit())
+    return digits[-n:] or None
+
+
 def paging(a: Args, default: int = DEFAULT_PAGE_SIZE) -> tuple[int, int]:
     size = min(max(int(a.get("pageSize", default)), 1), MAX_PAGE_SIZE)
     page = max(int(a.get("page", 1)), 1)
