@@ -555,6 +555,89 @@ async def test_get_ticket_attachment_strips_large_data(call):
     assert wrong["error"]["code"] == "not_found"
 
 
+def _rec(att_id=3, parent=9, **extra):
+    return {"id": att_id, "parentID": parent, "title": "a.pdf", **extra}
+
+
+# PRD-22216: Autotask answers by-id reads with {"items": [...]}; these cover that shape.
+@respx.mock
+async def test_get_ticket_attachment_items_shape_metadata(call):
+    respx.get(f"{ZONE}/Tickets/9/Attachments/3").mock(return_value=httpx.Response(200, json={"items": [_rec()]}))
+    out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=3)
+    assert "error" not in out and out["id"] == 3
+
+
+@respx.mock
+async def test_get_ticket_attachment_items_shape_fallback(call):
+    respx.get(f"{ZONE}/Tickets/9/Attachments/3").mock(return_value=httpx.Response(404, json={}))
+    respx.get(f"{ZONE}/TicketAttachments/3").mock(return_value=httpx.Response(200, json={"items": [_rec()]}))
+    out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=3)
+    assert "error" not in out and out["id"] == 3
+
+
+@respx.mock
+async def test_get_ticket_attachment_items_shape_data(call):
+    respx.get(f"{ZONE}/TicketAttachments/3").mock(return_value=httpx.Response(200, json={"items": [_rec(data="QUJD")]}))
+    out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=3, includeData=True)
+    assert out["data"] == "QUJD"
+
+
+@respx.mock
+async def test_get_ticket_attachment_items_shape_cap(call):
+    respx.get(f"{ZONE}/TicketAttachments/3").mock(
+        return_value=httpx.Response(200, json={"items": [_rec(data="A" * 5000)]})
+    )
+    out = await call(
+        "autotask_get_ticket_attachment", ticketId=9, attachmentId=3, includeData=True, maxInlineBase64Bytes=2000
+    )
+    assert "data" not in out and "dataOmittedReason" in out and out["dataLength"] == 5000
+
+
+@respx.mock
+async def test_get_ticket_attachment_items_shape_wrong_ticket(call):
+    respx.get(f"{ZONE}/TicketAttachments/3").mock(return_value=httpx.Response(200, json={"items": [_rec()]}))
+    out = await call("autotask_get_ticket_attachment", ticketId=10, attachmentId=3, includeData=True)
+    assert out["error"]["code"] == "not_found"
+
+
+@respx.mock
+async def test_get_ticket_attachment_empty_items_not_found(call):
+    respx.get(f"{ZONE}/Tickets/9/Attachments/3").mock(return_value=httpx.Response(200, json={"items": []}))
+    respx.get(f"{ZONE}/TicketAttachments/3").mock(return_value=httpx.Response(200, json={"items": []}))
+    out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=3)
+    assert out["error"]["code"] == "not_found"
+
+
+@respx.mock
+async def test_get_ticket_attachment_item_shape_metadata(call):
+    respx.get(f"{ZONE}/Tickets/9/Attachments/3").mock(return_value=httpx.Response(200, json={"item": _rec()}))
+    out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=3)
+    assert "error" not in out and out["id"] == 3
+
+
+@respx.mock
+async def test_get_ticket_note_attachment_items_shape(call):
+    respx.get(f"{ZONE}/TicketNotes/5/Attachments/3").mock(
+        return_value=httpx.Response(200, json={"items": [_rec(parent=5)]})
+    )
+    respx.get(f"{ZONE}/TicketNoteAttachments/3").mock(
+        return_value=httpx.Response(200, json={"items": [{"id": 3, "ticketNoteID": 5, "data": "QUJD"}]})
+    )
+    meta = await call("autotask_get_ticket_note_attachment", ticketNoteId=5, attachmentId=3)
+    assert "error" not in meta and meta["id"] == 3
+    full = await call("autotask_get_ticket_note_attachment", ticketNoteId=5, attachmentId=3, includeData=True)
+    assert full["data"] == "QUJD"
+
+
+@respx.mock
+async def test_get_ticket_attachment_items_shape_picks_matching_id(call):
+    respx.get(f"{ZONE}/Tickets/9/Attachments/4").mock(
+        return_value=httpx.Response(200, json={"items": [_rec(att_id=3), _rec(att_id=4, title="b.pdf")]})
+    )
+    out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=4)
+    assert out["id"] == 4 and out["title"] == "b.pdf"
+
+
 @respx.mock
 async def test_create_ticket_attachment_checks_size_and_base64(call):
     out = await call("autotask_create_ticket_attachment", ticketId=1, title="x", data="not base64!")

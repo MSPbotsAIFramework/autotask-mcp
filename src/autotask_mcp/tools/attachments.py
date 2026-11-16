@@ -13,7 +13,7 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 
 from .. import _json
-from ..api import ApiError, AutotaskClient, build, clean, item_id
+from ..api import ApiError, AutotaskClient, build, clean, item_id, single_record
 from ..config import Settings
 from ._common import CREATE, PAGE_SIZE, READ, Args, Opt, Req, ToolInputError, search, tool
 
@@ -38,7 +38,7 @@ async def _attachment(
     else:
         try:
             payload = await c.get(f"/{parent_entity}/{parent_id}/Attachments/{att_id}")
-            item = (payload or {}).get("item")
+            item = single_record(payload, att_id)
         except ApiError as exc:
             if exc.status not in (404, 405):
                 raise

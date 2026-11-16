@@ -8,9 +8,9 @@ Reference: Autotask REST API documentation (autotask.net online help, "REST API"
 - Auth headers ``UserName``, ``Secret`` and ``ApiIntegrationCode`` on every call.
 - Queries: ``POST /{Entity}/query`` with ``{"MaxRecords", "IncludeFields", "Filter": [...]}``;
   at most 500 records per call. ``POST /{Entity}/query/count`` returns ``queryCount``.
-- Single record: ``GET /{Entity}/{id}`` -> ``{"item": {...}}``. Create: ``POST /{Entity}`` -> ``{"itemId"}``.
-  Update: ``PATCH /{Entity}`` with ``id`` in the body. Child entities also have parent URLs such as
-  ``/Tickets/{id}/Notes``.
+- Single record: ``GET /{Entity}/{id}`` -> ``{"item": {...}}`` or ``{"items": [{...}]}`` (PRD-22216).
+  Create: ``POST /{Entity}`` -> ``{"itemId"}``. Update: ``PATCH /{Entity}`` with ``id`` in the body.
+  Child entities also have parent URLs such as ``/Tickets/{id}/Notes``.
 - Picklists and field metadata: ``GET /{Entity}/entityInformation/fields``.
 - Errors come back as ``{"errors": ["..."]}``. Business-rule violations are often HTTP 500.
 """
@@ -315,7 +315,7 @@ class AutotaskClient:
 
     async def get_item(self, entity: str, item_id: int) -> dict[str, Any]:
         payload = await self.get(f"/{entity}/{item_id}")
-        item = (payload or {}).get("item")
+        item = single_record(payload, item_id)
         if not item:
             raise ApiError("not_found", f"No {entity} record with id {item_id}.", False, 404)
         return item
@@ -408,6 +408,18 @@ def clean(record: Any, drop: set[str] | None = None) -> Any:
 def page_result(rows: list[dict[str, Any]], page: int, page_size: int, has_more: bool, drop=None) -> dict[str, Any]:
     items = [clean(r, drop) for r in rows]
     return {"items": items, "count": len(items), "page_number": page, "page_size": page_size, "has_more": has_more}
+
+
+def single_record(payload: Any, record_id: Any = None) -> dict[str, Any] | None:
+    """The record of a by-id GET, which Autotask answers as ``{"item": {...}}`` or ``{"items": [{...}]}``."""
+    if not isinstance(payload, dict):
+        return None
+    if isinstance(payload.get("item"), dict) and payload["item"]:
+        return payload["item"]
+    items = [i for i in payload.get("items") or [] if isinstance(i, dict) and i]
+    if not items:
+        return None
+    return next((i for i in items if record_id is not None and str(i.get("id")) == str(record_id)), items[0])
 
 
 def item_id(payload: Any) -> Any:
