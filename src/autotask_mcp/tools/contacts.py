@@ -23,6 +23,7 @@ from ._common import (
     Opt,
     Req,
     create,
+    phone_tail,
     require_any,
     search,
     tool,
@@ -48,6 +49,8 @@ def register(mcp: FastMCP, settings: Settings) -> None:
         Opt("email", str, "Exact match against emailAddress, emailAddress2, or emailAddress3."),
         Opt("companyID", int, "Company ID."),
         Opt("isActive", int, "1 = active only, 0 = inactive only."),
+        Opt("lastActivityAfter", str, "Last activity on or after this date-time (ISO 8601)."),
+        Opt("phone", str, "Phone number; matches contacts whose phone or mobilePhone contains its last 4 digits."),
         PAGE,
         PAGE_SIZE,
         Opt(
@@ -57,7 +60,14 @@ def register(mcp: FastMCP, settings: Settings) -> None:
         ),
     )
     async def search_contacts(c: AutotaskClient, a: Args) -> Any:
-        filters = build(("eq", "companyID", a.companyID), ("eq", "isActive", a.isActive))
+        filters = build(
+            ("eq", "companyID", a.companyID),
+            ("eq", "isActive", a.isActive),
+            ("gte", "lastActivityDate", a.lastActivityAfter),  # PRD-22107: incremental contact sync
+        )
+        tail = phone_tail(a.phone)
+        if tail:
+            filters.append(any_of(op("contains", "phone", tail), op("contains", "mobilePhone", tail)))
         if a.searchTerm:
             term = a.searchTerm.strip()
             options = [

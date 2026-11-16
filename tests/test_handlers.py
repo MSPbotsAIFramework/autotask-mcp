@@ -696,3 +696,41 @@ async def test_execute_tool_dispatches(call):
     assert out["status"] == "ok"
     out = await call("autotask_execute_tool", toolName="autotask_get_ticket_details", arguments={})
     assert out["error"]["code"] == "invalid_argument"
+
+
+@respx.mock
+async def test_search_contacts_omitted_filters_are_unchanged(call):
+    route = respx.post(f"{ZONE}/Contacts/query").mock(return_value=httpx.Response(200, json={"items": []}))
+    await call("autotask_search_contacts", isActive=1)
+    assert body_of(route)["Filter"] == [{"op": "eq", "field": "isActive", "value": 1}]
+
+
+@respx.mock
+async def test_search_contacts_last_activity_and_phone(call):
+    route = respx.post(f"{ZONE}/Contacts/query").mock(return_value=httpx.Response(200, json={"items": []}))
+    await call("autotask_search_contacts", lastActivityAfter="2026-11-16T09:13:00Z", phone="+1 (555) 123-4567")
+    filters = body_of(route)["Filter"]
+    assert {"op": "gte", "field": "lastActivityDate", "value": "2026-11-16T09:13:00Z"} in filters
+    assert {
+        "op": "or",
+        "items": [
+            {"op": "contains", "field": "phone", "value": "4567"},
+            {"op": "contains", "field": "mobilePhone", "value": "4567"},
+        ],
+    } in filters
+
+
+@respx.mock
+async def test_search_companies_last_activity_and_phone(call):
+    route = respx.post(f"{ZONE}/Companies/query").mock(return_value=httpx.Response(200, json={"items": []}))
+    await call("autotask_search_companies", lastActivityAfter="2026-11-16T09:13:00Z", phone="555-123-4567")
+    filters = body_of(route)["Filter"]
+    assert {"op": "gte", "field": "lastActivityDate", "value": "2026-11-16T09:13:00Z"} in filters
+    assert {"op": "contains", "field": "phone", "value": "4567"} in filters
+
+
+@respx.mock
+async def test_search_companies_without_new_filters_is_unchanged(call):
+    route = respx.post(f"{ZONE}/Companies/query").mock(return_value=httpx.Response(200, json={"items": []}))
+    await call("autotask_search_companies", searchTerm="Acme")
+    assert body_of(route)["Filter"] == [{"op": "contains", "field": "companyName", "value": "Acme"}]

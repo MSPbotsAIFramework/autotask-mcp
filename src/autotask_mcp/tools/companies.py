@@ -20,6 +20,7 @@ from ._common import (
     ToolInputError,
     belongs,
     create,
+    phone_tail,
     require_any,
     search,
     title_from,
@@ -65,11 +66,18 @@ def register(mcp: FastMCP, settings: Settings) -> None:
         READ,
         Opt("searchTerm", str, "Text contained in the company name."),
         Opt("isActive", bool, "Only active (true) or inactive (false) companies."),
+        Opt("lastActivityAfter", str, "Last activity on or after this date-time (ISO 8601)."),
+        Opt("phone", str, "Phone number; matches companies whose phone contains its last 4 digits."),
         PAGE,
         PAGE_SIZE,
     )
     async def search_companies(c: AutotaskClient, a: Args) -> Any:
-        filters = build(("contains", "companyName", a.searchTerm), ("eq", "isActive", a.isActive))
+        filters = build(
+            ("contains", "companyName", a.searchTerm),
+            ("eq", "isActive", a.isActive),
+            ("gte", "lastActivityDate", a.lastActivityAfter),  # PRD-22107: incremental contact sync
+            ("contains", "phone", phone_tail(a.phone)),
+        )
         return await search(c, "Companies", filters, a)
 
     @t(

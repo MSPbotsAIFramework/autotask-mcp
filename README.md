@@ -136,6 +136,10 @@ Behaviour notes:
   `emailAddress`, `emailAddress2`, or `emailAddress3` (ANDed with `companyID`/`isActive` when
   set); it is independent of the fuzzy `searchTerm` match, which still only checks `firstName`,
   `lastName` and `emailAddress` by `contains`.
+- `autotask_search_contacts` and `autotask_search_companies` accept optional `lastActivityAfter`
+  (ISO 8601, `lastActivityDate >= value`) and `phone` (matches `phone`/`mobilePhone` for contacts,
+  `phone` for companies, by `contains` on the last 4 digits of the digits-only input, because
+  Autotask stores phones as free text). Omitting them reproduces the previous request exactly.
 - A ticket's Work Type is `billingCodeID`, a reference to `BillingCodes`, not a picklist:
   `autotask_get_field_info` cannot list it; use `autotask_search_billing_codes` (useType 1 = Work
   Type, 3 = internal time).
