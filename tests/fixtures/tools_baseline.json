@@ -992,7 +992,9 @@
   "params": [
    "attachmentId",
    "includeData",
+   "includeRawPdf",
    "maxInlineBase64Bytes",
+   "maxTextChars",
    "ticketId"
   ],
   "required": [
@@ -1002,7 +1004,9 @@
   "types": {
    "attachmentId": "number",
    "includeData": "boolean",
+   "includeRawPdf": "boolean",
    "maxInlineBase64Bytes": "number",
+   "maxTextChars": "number",
    "ticketId": "number"
   }
  },
@@ -1059,7 +1063,9 @@
   "params": [
    "attachmentId",
    "includeData",
+   "includeRawPdf",
    "maxInlineBase64Bytes",
+   "maxTextChars",
    "ticketNoteId"
   ],
   "required": [
@@ -1069,7 +1075,9 @@
   "types": {
    "attachmentId": "number",
    "includeData": "boolean",
+   "includeRawPdf": "boolean",
    "maxInlineBase64Bytes": "number",
+   "maxTextChars": "number",
    "ticketNoteId": "number"
   }
  },

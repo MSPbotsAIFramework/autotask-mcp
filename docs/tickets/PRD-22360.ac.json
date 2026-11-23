@@ -1,0 +1,239 @@
+[
+  {
+    "id": "TC-PDF-001",
+    "ac": "AC1",
+    "dw": "DW1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a PDF whose six answer-key form fields are filled (full name, email address, division, license, Email & Security Groups, additional requested groups), when read with includeData=true, then text contains each label with its exact value and the result has no data key.",
+    "tests": [
+      "tests/test_pdf_text.py::test_form_fields_exact_values"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_pdf_text.py::test_form_fields_exact_values) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-002",
+    "ac": "AC1",
+    "dw": "DW1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a checked and an unchecked checkbox, when read, then text shows 'checked' and 'not checked' with their labels.",
+    "tests": [
+      "tests/test_pdf_text.py::test_checkbox_values"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_pdf_text.py::test_checkbox_values) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-003",
+    "ac": "AC2",
+    "dw": "DW1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a PDF with the six answer-key items drawn as table rows, when read, then each label and its value are on the same line separated by ' | ' and no value sits on another row.",
+    "tests": [
+      "tests/test_pdf_text.py::test_table_rows_label_next_to_value"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_pdf_text.py::test_table_rows_label_next_to_value) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-004",
+    "ac": "AC3",
+    "dw": "DW1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given fields named Text1..Text6, when read, then labels come from the tooltip if present, else the nearest text to the left on the same line, else the nearest text above, else the field name.",
+    "tests": [
+      "tests/test_pdf_text.py::test_generic_field_names_get_labels"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_pdf_text.py::test_generic_field_names_get_labels) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-005",
+    "ac": "AC4",
+    "dw": "DW2",
+    "type": "auto",
+    "source": "design",
+    "text": "Given an image-only PDF, when read, then textFound is false, the message contains the file name and 'No text found', there is no data key and no error.",
+    "tests": [
+      "tests/test_pdf_text.py::test_image_only_pdf_message"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_pdf_text.py::test_image_only_pdf_message) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-006",
+    "ac": "AC5",
+    "dw": "DW3",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a readable PDF, when read through autotask_get_ticket_attachment, then the serialized result contains text and summary and no data key and no base64 string.",
+    "tests": [
+      "tests/test_handlers.py::test_pdf_attachment_returns_text_not_base64"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_handlers.py::test_pdf_attachment_returns_text_not_base64) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-007",
+    "ac": "AC6",
+    "dw": "DW4",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a PNG attachment, when read with includeData=true, then the result still has the base64 data exactly as before.",
+    "tests": [
+      "tests/test_handlers.py::test_png_attachment_unchanged"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_handlers.py::test_png_attachment_unchanged) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-008",
+    "ac": "AC7",
+    "dw": "DW4",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a PDF attachment, when includeRawPdf=true, then data is returned as before and no text is extracted.",
+    "tests": [
+      "tests/test_handlers.py::test_pdf_include_raw_pdf"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_handlers.py::test_pdf_include_raw_pdf) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-009",
+    "ac": "AC8",
+    "dw": "DW2",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a corrupt PDF, when read, then the call does not raise and returns textFound false with a message naming the file.",
+    "tests": [
+      "tests/test_pdf_text.py::test_corrupt_pdf_message"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_pdf_text.py::test_corrupt_pdf_message) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-010",
+    "ac": "AC8",
+    "dw": "DW2",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a password-protected PDF, when read, then the message says it is password-protected.",
+    "tests": [
+      "tests/test_pdf_text.py::test_encrypted_pdf_message"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_pdf_text.py::test_encrypted_pdf_message) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-011",
+    "ac": "AC8",
+    "dw": "DW2",
+    "type": "auto",
+    "source": "design",
+    "text": "Given a PDF above 10 MiB decoded, when read, then it is not parsed and the message states the limit; given a 101-page PDF, then the first 100 pages are returned plus a note.",
+    "tests": [
+      "tests/test_handlers.py::test_pdf_oversize_and_page_limit"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_handlers.py::test_pdf_oversize_and_page_limit) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-012",
+    "ac": "AC9",
+    "dw": "DW1",
+    "type": "auto",
+    "source": "design",
+    "text": "Given extracted text longer than maxTextChars, when read, then text is cut at the limit, textTruncated is true and the full length is reported.",
+    "tests": [
+      "tests/test_pdf_text.py::test_text_truncated"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_pdf_text.py::test_text_truncated) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-013",
+    "ac": "AC6",
+    "dw": "DW4",
+    "type": "auto",
+    "source": "design",
+    "text": "Given the two new optional parameters, when the baseline test runs, then it passes; and an attachment of another ticket still returns not_found for a PDF.",
+    "tests": [
+      "tests/test_tools.py::test_parameters_are_backward_compatible"
+    ],
+    "result": "pass",
+    "evidence": "uv run pytest -q (tests/test_tools.py::test_parameters_are_backward_compatible) passed; full suite 93 passed on code synced with main f84c43c"
+  },
+  {
+    "id": "TC-PDF-014",
+    "ac": "AC1",
+    "dw": "DW1",
+    "type": "manual",
+    "source": "design",
+    "text": "Fixture A (text PDF with filled form fields and a small table, dummy data) is attached to ticket 9111 on the demo Autotask; a test agent run that reads it returns every answer-key field with its exact value, table values next to their labels.",
+    "needs": "real Autotask vendor account (demo instance, ticket 9111)",
+    "result": "blocked",
+    "precond": "Demo Autotask credentials for the PRD-22216 test instance; Fixtures A and B built from the generator in tests (dummy data)",
+    "steps": [
+      "Attach Fixture A to ticket 9111 with autotask_create_ticket_attachment",
+      "Run a test agent that lists and reads the attachment",
+      "Compare the returned values with the answer key recorded on the card"
+    ],
+    "expect": "Every answer-key field is returned with its exact value; each table value is next to its label",
+    "evidence": "Not run: needs the demo Autotask account (ticket 9111), not available to the pipeline; waiting for real-account verification (not a blocker, mcp-track.md section 3)"
+  },
+  {
+    "id": "TC-PDF-015",
+    "ac": "AC4",
+    "dw": "DW2",
+    "type": "manual",
+    "source": "design",
+    "text": "Fixture B (image-only PDF) attached to ticket 9111; the run gets a message that names the file and says no text was found, and the run continues.",
+    "needs": "real Autotask vendor account (demo instance, ticket 9111)",
+    "result": "blocked",
+    "precond": "Demo Autotask credentials for the PRD-22216 test instance; Fixtures A and B built from the generator in tests (dummy data)",
+    "steps": [
+      "Attach Fixture B to ticket 9111",
+      "Run a test agent that reads it and then does a next step"
+    ],
+    "expect": "A message names the file and says no text was found; the run does not fail and the next step runs",
+    "evidence": "Not run: needs the demo Autotask account (ticket 9111), not available to the pipeline; waiting for real-account verification (not a blocker, mcp-track.md section 3)"
+  },
+  {
+    "id": "TC-PDF-016",
+    "ac": "AC5",
+    "dw": "DW3",
+    "type": "manual",
+    "source": "design",
+    "text": "In run detail, the step trace and the tool-call record for the PDF step show the extracted text or a short note, not base64.",
+    "needs": "real Autotask vendor account (demo instance, ticket 9111)",
+    "result": "blocked",
+    "precond": "Demo Autotask credentials for the PRD-22216 test instance; Fixtures A and B built from the generator in tests (dummy data)",
+    "steps": [
+      "Open the run of TC-PDF-014 and TC-PDF-015 in run detail",
+      "Open the PDF step in the step trace and the tool-call record"
+    ],
+    "expect": "Text or the note is shown; no base64 content anywhere",
+    "evidence": "Not run: needs the demo Autotask account (ticket 9111), not available to the pipeline; waiting for real-account verification (not a blocker, mcp-track.md section 3)"
+  },
+  {
+    "id": "TC-PDF-017",
+    "ac": "AC6",
+    "dw": "DW4",
+    "type": "manual",
+    "source": "design",
+    "text": "The PNG attachment 46 on ticket 9111 is read as before.",
+    "needs": "real Autotask vendor account (demo instance, ticket 9111)",
+    "result": "blocked",
+    "precond": "Demo Autotask credentials for the PRD-22216 test instance; Fixtures A and B built from the generator in tests (dummy data)",
+    "steps": [
+      "Run a test agent that reads attachment 46 with includeData=true"
+    ],
+    "expect": "The PNG content is returned as base64 as in PRD-22216's test",
+    "evidence": "Not run: needs the demo Autotask account (ticket 9111), not available to the pipeline; waiting for real-account verification (not a blocker, mcp-track.md section 3)"
+  }
+]
