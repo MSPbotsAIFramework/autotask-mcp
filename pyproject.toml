@@ -13,6 +13,7 @@ dependencies = [
     "pydantic-settings>=2.3.0",
     "uvicorn>=0.30.0",
     "starlette>=0.41.0",
+    "pypdf>=7.1.1",
 ]
 
 [project.scripts]
@@ -29,6 +30,7 @@ packages = ["src/autotask_mcp"]
 dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
+    "reportlab>=5.1.0",
     "respx>=0.21.0",
     "ruff>=0.5.0",
 ]

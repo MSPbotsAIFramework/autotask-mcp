@@ -734,3 +734,122 @@ async def test_search_companies_without_new_filters_is_unchanged(call):
     route = respx.post(f"{ZONE}/Companies/query").mock(return_value=httpx.Response(200, json={"items": []}))
     await call("autotask_search_companies", searchTerm="Acme")
     assert body_of(route)["Filter"] == [{"op": "contains", "field": "companyName", "value": "Acme"}]
+
+
+# PRD-22360: PDF attachments come back as text, not base64.
+def _pdf_b64(draw) -> str:
+    from io import BytesIO
+
+    from reportlab.lib.pagesizes import letter
+    from reportlab.pdfgen import canvas
+
+    buf = BytesIO()
+    c = canvas.Canvas(buf, pagesize=letter)
+    draw(c)
+    c.save()
+    return base64.b64encode(buf.getvalue()).decode()
+
+
+def _text_pdf() -> str:
+    def draw(c):
+        c.drawString(50, 700, "Division")
+        c.drawString(300, 700, "North")
+        c.acroForm.textfield(name="Email", tooltip="Email address", value="jane.example@example.test", x=50, y=600)
+
+    return _pdf_b64(draw)
+
+
+@respx.mock
+async def test_pdf_attachment_returns_text_not_base64(call):
+    b64 = _text_pdf()
+    respx.get(f"{ZONE}/TicketAttachments/3").mock(
+        return_value=httpx.Response(200, json={"item": {"id": 3, "parentID": 9, "title": "form.pdf", "data": b64}})
+    )
+    respx.get(f"{ZONE}/TicketNoteAttachments/4").mock(
+        return_value=httpx.Response(200, json={"item": {"id": 4, "ticketNoteID": 7, "title": "form.pdf", "data": b64}})
+    )
+    for out in (
+        await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=3, includeData=True),
+        await call("autotask_get_ticket_note_attachment", ticketNoteId=7, attachmentId=4, includeData=True),
+    ):
+        assert out["textFound"] is True and "data" not in out
+        assert "- Email address: jane.example@example.test" in out["text"]
+        assert "Division | North" in out["text"]
+        assert out["summary"].startswith("Text read from form.pdf")
+        assert b64[:200] not in json.dumps(out)
+    wrong = await call("autotask_get_ticket_attachment", ticketId=10, attachmentId=3, includeData=True)
+    assert wrong["error"]["code"] == "not_found"
+
+
+@respx.mock
+async def test_png_attachment_unchanged(call):
+    png = base64.b64encode(b"\x89PNG\r\n\x1a\n" + b"x" * 100).decode()
+    respx.get(f"{ZONE}/TicketAttachments/46").mock(
+        return_value=httpx.Response(200, json={"item": {"id": 46, "parentID": 9, "title": "a.png", "data": png}})
+    )
+    out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=46, includeData=True)
+    assert out["data"] == png and "text" not in out and "textFound" not in out
+
+
+@respx.mock
+async def test_pdf_include_raw_pdf(call):
+    b64 = _text_pdf()
+    respx.get(f"{ZONE}/TicketAttachments/3").mock(
+        return_value=httpx.Response(200, json={"item": {"id": 3, "parentID": 9, "title": "form.pdf", "data": b64}})
+    )
+    out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=3, includeData=True, includeRawPdf=True)
+    assert out["data"] == b64 and "text" not in out
+
+
+@respx.mock
+async def test_pdf_image_only_and_unreadable_do_not_raise(call):
+    scan = _pdf_b64(lambda c: c.rect(50, 50, 100, 100, fill=1))
+    bad = base64.b64encode(b"%PDF-1.4 not really").decode()
+    for att, data in ((5, scan), (6, bad)):
+        respx.get(f"{ZONE}/TicketAttachments/{att}").mock(
+            return_value=httpx.Response(200, json={"item": {"id": att, "parentID": 9, "title": "s.pdf", "data": data}})
+        )
+        out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=att, includeData=True)
+        assert "error" not in out and out["textFound"] is False and "data" not in out
+        assert "s.pdf" in out["message"]
+    first = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=5, includeData=True)
+    assert "No text found in s.pdf" in first["message"]
+
+
+@respx.mock
+async def test_pdf_oversize_and_page_limit(call):
+    from autotask_mcp.tools import attachments
+
+    huge = base64.b64encode(b"%PDF-1.4" + b"0" * (attachments.MAX_PDF_BYTES + 10)).decode()
+    respx.get(f"{ZONE}/TicketAttachments/7").mock(
+        return_value=httpx.Response(200, json={"item": {"id": 7, "parentID": 9, "title": "big.pdf", "data": huge}})
+    )
+    out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=7, includeData=True)
+    assert out["textFound"] is False and "big.pdf" in out["message"] and "10 MiB" in out["message"]
+    assert "data" not in out
+
+    def draw(c):
+        for i in range(101):
+            c.drawString(50, 700, f"Line {i}")
+            c.showPage()
+
+    respx.get(f"{ZONE}/TicketAttachments/8").mock(
+        return_value=httpx.Response(
+            200, json={"item": {"id": 8, "parentID": 9, "title": "long.pdf", "data": _pdf_b64(draw)}}
+        )
+    )
+    out = await call(
+        "autotask_get_ticket_attachment", ticketId=9, attachmentId=8, includeData=True, maxTextChars=1_000_000
+    )
+    assert out["pages"] == 101 and "first 100 of 101 pages" in out["text"]
+
+
+@respx.mock
+async def test_pdf_text_truncated_reports_length(call):
+    respx.get(f"{ZONE}/TicketAttachments/3").mock(
+        return_value=httpx.Response(
+            200, json={"item": {"id": 3, "parentID": 9, "title": "form.pdf", "data": _text_pdf()}}
+        )
+    )
+    out = await call("autotask_get_ticket_attachment", ticketId=9, attachmentId=3, includeData=True, maxTextChars=1000)
+    assert out["textFound"] is True and len(out["text"]) <= 1000

@@ -151,7 +151,10 @@ Behaviour notes:
   business-rule violations as HTTP 500 with an `errors` list; those map to `invalid_argument` and
   are not retried.
 - `autotask_get_ticket_attachment` and `autotask_get_ticket_note_attachment` may return file data
-  above the 20,000 character limit, up to `maxInlineBase64Bytes`.
+  above the 20,000 character limit, up to `maxInlineBase64Bytes`. A PDF is returned as extracted text
+  instead (filled form fields as `- label: value`, table rows as `Label | Value`; `maxTextChars`,
+  default 60,000); an image-only PDF gets a "No text found" message (no OCR). Pass
+  `includeRawPdf=true` to get the base64 file as before.
 
 ## Run locally
 
